@@ -4,8 +4,8 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Item } from "@/lib/types";
-import ItemImageSlider from "@/components/ItemImageSlider";
 import PageTracker from "@/components/PageTracker";
+import ItemCard from "@/components/ItemCard";
 
 export const revalidate = 60;
 
@@ -35,6 +35,7 @@ export default async function CategoryPage({
     <>
       <Navbar />
       <PageTracker page={`category/${slug}`} meta={category.name} />
+      <PageTracker page={`category/${slug}`} meta={category.name} event="category_view" />
       <main className="flex-1 max-w-6xl mx-auto px-4 py-8 w-full">
         <Link
           href="/"
@@ -59,22 +60,9 @@ export default async function CategoryPage({
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
             {(items as Item[]).map((item) => {
-              const images =
-                item.image_urls?.length ? item.image_urls : [item.image_url];
+              const images = item.image_urls?.length ? item.image_urls : [item.image_url];
               return (
-                <div
-                  key={item.id}
-                  className="bg-white rounded-2xl overflow-hidden shadow-md border border-rose-50 hover:shadow-lg transition-shadow"
-                >
-                  <div className="relative h-48 md:h-60 bg-rose-50">
-                    <ItemImageSlider images={images} />
-                  </div>
-                  <div className="p-3 text-center">
-                    <h3 className="font-semibold text-gray-800 text-sm">
-                      {item.name}
-                    </h3>
-                  </div>
-                </div>
+                <ItemCard key={item.id} id={item.id} name={item.name} images={images} />
               );
             })}
           </div>

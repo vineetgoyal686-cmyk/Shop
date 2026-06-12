@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import AdminSidebar from "@/components/AdminSidebar";
+import AdminHeader from "@/components/AdminHeader";
 
 export default async function AdminLayout({
   children,
@@ -11,7 +12,6 @@ export default async function AdminLayout({
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Login page ko sidebar ke bina dikhao
   if (!user) {
     return <>{children}</>;
   }
@@ -19,7 +19,10 @@ export default async function AdminLayout({
   return (
     <div className="min-h-screen flex bg-gray-50">
       <AdminSidebar />
-      <main className="flex-1 p-6 overflow-auto">{children}</main>
+      <div className="flex-1 flex flex-col min-h-screen overflow-hidden">
+        <AdminHeader />
+        <main className="flex-1 p-6 overflow-auto">{children}</main>
+      </div>
     </div>
   );
 }
