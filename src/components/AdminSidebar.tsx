@@ -49,7 +49,7 @@ export default function AdminSidebar() {
 
   return (
     <aside
-      className={`flex flex-col bg-white border-r border-gray-200 min-h-screen transition-all duration-300 ease-in-out flex-shrink-0 ${
+      className={`flex flex-col bg-white border-r border-gray-200 h-screen transition-all duration-300 ease-in-out flex-shrink-0 ${
         collapsed ? "w-16" : "w-56"
       }`}
     >
@@ -79,7 +79,7 @@ export default function AdminSidebar() {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 p-2 space-y-0.5 mt-1">
+      <nav className="flex-1 p-2 space-y-0.5 mt-1 overflow-y-auto">
         {navItems.map(({ href, label, icon: Icon }) => {
           const active = href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
           return (
@@ -103,7 +103,7 @@ export default function AdminSidebar() {
       </nav>
 
       {/* Profile + Logout */}
-      <div className="border-t border-gray-100 p-2 space-y-0.5">
+      <div className="border-t border-gray-100 p-2 space-y-0.5 flex-shrink-0">
         <Link
           href="/admin/profile"
           title={collapsed ? adminName : undefined}
