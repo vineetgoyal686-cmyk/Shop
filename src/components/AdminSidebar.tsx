@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Sparkles, LayoutGrid, Package, ShoppingBag, LogOut,
-  UserCircle, ChevronLeft, ChevronRight, Users,
+  UserCircle, PanelLeftClose, PanelLeftOpen, Users,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
@@ -48,65 +48,37 @@ export default function AdminSidebar() {
 
   return (
     <aside
-      className={`relative flex flex-col min-h-screen bg-white border-r border-gray-200 transition-all duration-300 ease-in-out ${
+      className={`flex flex-col bg-white border-r border-gray-200 min-h-screen transition-all duration-300 ease-in-out flex-shrink-0 ${
         collapsed ? "w-16" : "w-56"
       }`}
     >
-      {/* Toggle Button */}
-      <button
-        onClick={() => setCollapsed((v) => !v)}
-        className="absolute -right-3 top-6 z-10 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:bg-rose-50 hover:border-rose-300 transition-colors"
-        title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-      >
-        {collapsed ? (
-          <ChevronRight size={13} className="text-gray-500" />
-        ) : (
-          <ChevronLeft size={13} className="text-gray-500" />
-        )}
-      </button>
-
-      {/* Logo */}
-      <div className={`p-4 border-b border-gray-100 ${collapsed ? "flex justify-center" : ""}`}>
-        <div className="flex items-center gap-2 min-w-0">
-          <div className="w-7 h-7 flex-shrink-0 bg-gradient-to-br from-rose-400 to-pink-600 rounded-lg flex items-center justify-center">
-            <Sparkles size={14} className="text-white" />
-          </div>
-          {!collapsed && (
+      {/* Header: Logo + Toggle */}
+      <div className={`flex items-center border-b border-gray-100 h-14 px-3 ${collapsed ? "justify-center" : "justify-between"}`}>
+        {!collapsed && (
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-7 h-7 flex-shrink-0 bg-gradient-to-br from-rose-400 to-pink-600 rounded-lg flex items-center justify-center">
+              <Sparkles size={14} className="text-white" />
+            </div>
             <div className="overflow-hidden">
-              <span className="font-bold text-gray-800 text-sm block truncate">Admin Panel</span>
+              <p className="font-bold text-gray-800 text-sm leading-tight truncate">Admin Panel</p>
               <p className="text-xs text-gray-400 truncate">Aradhya Collection</p>
             </div>
-          )}
-        </div>
-      </div>
-
-      {/* Profile Section */}
-      <Link
-        href="/admin/profile"
-        className={`flex items-center gap-3 border-b border-gray-100 hover:bg-rose-50 transition-colors ${
-          collapsed ? "justify-center p-3" : "p-4"
-        }`}
-        title={collapsed ? adminName : undefined}
-      >
-        <div className="relative w-10 h-10 flex-shrink-0 rounded-full overflow-hidden bg-rose-100 ring-2 ring-rose-200">
-          {avatarUrl ? (
-            <Image src={avatarUrl} alt="avatar" fill className="object-cover" />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-rose-500 font-bold text-base uppercase">
-              {adminName.charAt(0)}
-            </div>
-          )}
-        </div>
-        {!collapsed && (
-          <div className="min-w-0">
-            <p className="text-sm font-semibold text-gray-800 truncate capitalize">{adminName}</p>
-            <p className="text-xs text-gray-400 truncate">{adminEmail}</p>
           </div>
         )}
-      </Link>
+        <button
+          onClick={() => setCollapsed((v) => !v)}
+          className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-rose-500 hover:bg-rose-50 transition-colors flex-shrink-0"
+          title={collapsed ? "Expand" : "Collapse"}
+        >
+          {collapsed
+            ? <PanelLeftOpen size={17} />
+            : <PanelLeftClose size={17} />
+          }
+        </button>
+      </div>
 
       {/* Nav */}
-      <nav className="flex-1 p-2 space-y-1">
+      <nav className="flex-1 p-2 space-y-0.5 mt-1">
         {navItems.map(({ href, label, icon: Icon }) => {
           const active = href === "/admin" ? pathname === "/admin" : pathname.startsWith(href);
           return (
@@ -117,18 +89,44 @@ export default function AdminSidebar() {
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                 collapsed ? "justify-center" : ""
               } ${
-                active ? "bg-rose-50 text-rose-600 font-semibold" : "text-gray-600 hover:bg-gray-100"
+                active
+                  ? "bg-rose-50 text-rose-600 font-semibold"
+                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-800"
               }`}
             >
               <Icon size={17} className="flex-shrink-0" />
-              {!collapsed && label}
+              {!collapsed && <span className="truncate">{label}</span>}
             </Link>
           );
         })}
       </nav>
 
-      {/* Logout */}
-      <div className="p-2 border-t border-gray-100">
+      {/* Profile + Logout */}
+      <div className="border-t border-gray-100 p-2 space-y-0.5">
+        <Link
+          href="/admin/profile"
+          title={collapsed ? adminName : undefined}
+          className={`flex items-center gap-2.5 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors ${
+            collapsed ? "justify-center" : ""
+          }`}
+        >
+          <div className="relative w-8 h-8 flex-shrink-0 rounded-full overflow-hidden bg-rose-100 ring-2 ring-rose-200">
+            {avatarUrl ? (
+              <Image src={avatarUrl} alt="avatar" fill className="object-cover" />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-rose-500 font-bold text-sm uppercase">
+                {adminName.charAt(0)}
+              </div>
+            )}
+          </div>
+          {!collapsed && (
+            <div className="min-w-0">
+              <p className="text-xs font-semibold text-gray-700 truncate capitalize">{adminName}</p>
+              <p className="text-xs text-gray-400 truncate">{adminEmail}</p>
+            </div>
+          )}
+        </Link>
+
         <button
           onClick={handleLogout}
           title={collapsed ? "Logout" : undefined}
