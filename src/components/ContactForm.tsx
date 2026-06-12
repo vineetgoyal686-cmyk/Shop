@@ -41,7 +41,7 @@ export default function ContactForm() {
         <CheckCircle2 size={44} className="text-rose-400" />
         <h3 className="text-lg font-bold text-gray-800">Message Sent!</h3>
         <p className="text-sm text-gray-500 max-w-xs">
-          Humne aapka message receive kar liya hai. Hum jaldi hi aapse contact karenge.
+          We have received your message. We will get back to you shortly.
         </p>
         <button
           onClick={() => setSubmitted(false)}
@@ -65,7 +65,7 @@ export default function ContactForm() {
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Aapka naam"
+            placeholder="Your name"
             className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300"
           />
         </div>
@@ -104,7 +104,7 @@ export default function ContactForm() {
           required
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Kya chahiye aapko? Koi bhi sawaal poochh sakte hain..."
+          placeholder="What are you looking for? Feel free to ask anything..."
           rows={4}
           className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300 resize-none"
         />
@@ -116,7 +116,7 @@ export default function ContactForm() {
         className="w-full bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-rose-200 disabled:opacity-60"
       >
         {loading ? <Loader2 size={17} className="animate-spin" /> : <Send size={17} />}
-        {loading ? "Bhej rahe hain..." : "Message Bhejein"}
+        {loading ? "Sending..." : "Send Message"}
       </button>
     </form>
   );

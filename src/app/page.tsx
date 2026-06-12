@@ -138,13 +138,13 @@ export default async function HomePage() {
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-2 bg-white/80 border border-rose-200 rounded-full px-4 py-1.5 mb-4 shadow-sm">
               <MessageCircle size={13} className="text-rose-400" />
-              <span className="text-xs font-semibold text-rose-600">Humse Sampark Karein</span>
+              <span className="text-xs font-semibold text-rose-600">Get in Touch</span>
             </div>
             <h2 className="text-2xl md:text-3xl font-bold text-gray-800">
-              Koi <span className="text-rose-500">Sawaal</span> Hai?
+              Have a <span className="text-rose-500">Question?</span>
             </h2>
             <p className="text-gray-400 mt-2 text-sm">
-              Apna naam aur message bhejein — hum jaldi reply karenge
+              Send us your name and message — we will reply shortly
             </p>
           </div>
           <div className="bg-white rounded-2xl shadow-md border border-rose-100 p-6 md:p-8">

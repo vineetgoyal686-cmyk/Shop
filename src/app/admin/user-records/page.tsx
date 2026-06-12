@@ -25,11 +25,11 @@ export default function UserRecordsPage() {
   }, []);
 
   async function handleDelete(id: string) {
-    if (!confirm("Is record ko delete karna chahte hain?")) return;
+    if (!confirm("Are you sure you want to delete this record?")) return;
     const { error } = await supabase.from("contacts").delete().eq("id", id);
-    if (error) { toast.error("Delete nahi hua."); return; }
+    if (error) { toast.error("Could not delete."); return; }
     setContacts((prev) => prev.filter((c) => c.id !== id));
-    toast.success("Record delete ho gaya.");
+    toast.success("Record deleted.");
   }
 
   const filtered = contacts.filter((c) => {
@@ -55,14 +55,12 @@ export default function UserRecordsPage() {
         <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
           <Users size={22} className="text-rose-500" /> User Records
         </h1>
-        <p className="text-sm text-gray-400 mt-1">
-          Contact form se aaye saare messages
-        </p>
+        <p className="text-sm text-gray-400 mt-1">All messages from the contact form</p>
       </div>
 
       {/* Stats + Search */}
       <div className="flex flex-col sm:flex-row gap-3 mb-5">
-        <div className="bg-white rounded-xl px-5 py-3 border border-gray-100 shadow-sm flex items-center gap-3">
+        <div className="bg-white rounded-xl px-5 py-3 border border-gray-100 shadow-sm flex items-center gap-3 sm:w-48 flex-shrink-0">
           <div className="w-8 h-8 bg-rose-100 rounded-lg flex items-center justify-center">
             <MessageSquare size={16} className="text-rose-500" />
           </div>
@@ -72,13 +70,15 @@ export default function UserRecordsPage() {
           </div>
         </div>
         <div className="relative flex-1">
-          <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+            <Search size={15} className="text-gray-400" />
+          </div>
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Name, phone, email se search karein..."
-            className="w-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300"
+            placeholder="Search by name, phone, or email..."
+            className="w-full h-full border border-gray-200 rounded-xl pl-9 pr-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300"
           />
         </div>
       </div>
@@ -91,7 +91,7 @@ export default function UserRecordsPage() {
           </div>
         ) : filtered.length === 0 ? (
           <div className="text-center text-gray-400 py-16 text-sm">
-            {search ? "Koi result nahi mila." : "Abhi tak koi message nahi aaya."}
+            {search ? "No results found." : "No messages yet."}
           </div>
         ) : (
           <ul className="divide-y divide-gray-50">
@@ -99,7 +99,6 @@ export default function UserRecordsPage() {
               <li key={contact.id} className="p-5 hover:bg-gray-50/60 transition-colors">
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-4 min-w-0">
-                    {/* Avatar */}
                     <div className="w-10 h-10 flex-shrink-0 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white font-bold text-sm uppercase">
                       {contact.name.charAt(0)}
                     </div>
