@@ -96,7 +96,36 @@ create policy "Admin can delete contacts"
   using (true);
 
 -- ============================================
--- 7. Storage Bucket Setup
+-- 7. Settings Table (admin-configurable key-value store)
+-- ============================================
+create table if not exists settings (
+  key text primary key,
+  value text not null,
+  updated_at timestamp with time zone default now()
+);
+
+alter table settings enable row level security;
+
+create policy "Public can read settings"
+  on settings for select
+  using (true);
+
+create policy "Admin can insert settings"
+  on settings for insert
+  to authenticated
+  with check (true);
+
+create policy "Admin can update settings"
+  on settings for update
+  to authenticated
+  using (true)
+  with check (true);
+
+insert into settings (key, value) values ('contact_phone', '8077982246')
+on conflict (key) do nothing;
+
+-- ============================================
+-- 8. Storage Bucket Setup
 -- Supabase Dashboard > Storage > New Bucket
 --   Name: images
 --   Public: YES (checkbox on karo)

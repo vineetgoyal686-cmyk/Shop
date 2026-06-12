@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   Sparkles, LayoutGrid, Package, ShoppingBag, LogOut,
-  UserCircle, PanelLeftClose, PanelLeftOpen, Users,
+  UserCircle, PanelLeftClose, PanelLeftOpen, Users, Settings,
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ const navItems = [
   { href: "/admin/items", label: "Items", icon: Package },
   { href: "/admin/user-records", label: "User Records", icon: Users },
   { href: "/admin/profile", label: "Profile", icon: UserCircle },
+  { href: "/admin/settings", label: "Settings", icon: Settings },
 ];
 
 export default function AdminSidebar() {
